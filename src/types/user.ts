@@ -12,6 +12,7 @@ export interface IUserLogin{
     password: string;
 }
 export interface IUserSignup{
+    _id: any;
     name: string;
     email: string;
     password: string;

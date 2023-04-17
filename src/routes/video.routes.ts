@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer, { StorageEngine } from "multer";
 import {uploadVideo,getAllVideos } from "../controlllers/videoController";
-import {adminauthorize} from "../middleware/auth";
+import {adminauthorize,authorize} from "../middleware/auth";
 const storage = multer.diskStorage({});
 const router = Router();
 
@@ -14,7 +14,7 @@ const fileFilter = (req:any, file:any, cb:any) => {
 };
 const uploads = multer({ storage, fileFilter });
 
-router.post("/videoUpload",adminauthorize,uploads.single("video"),uploadVideo);
-router.get("/getallVideos",adminauthorize,getAllVideos);
+router.post("/videoUpload",uploads.single("video"),uploadVideo);
+router.get("/getallVideos",getAllVideos);
 
 export default router;

@@ -1,7 +1,7 @@
 import {upload,getAllImages } from "../controlllers/imageController";
 import multer from "multer"
 import {Router} from "express";
-import {adminauthorize} from "../middleware/auth";
+import {adminauthorize,authorize} from "../middleware/auth";
 const storage = multer.diskStorage({});
 const router = Router();
 
@@ -13,7 +13,7 @@ const fileFilter = (req:any, file:any, cb:any) => {
     }
 };
 const uploads = multer({ storage, fileFilter });
-router.post("/imageUpload",adminauthorize, uploads.single("photo"),upload);
-router.get("/getallImages",adminauthorize, getAllImages);
+router.post("/imageUpload",  uploads.single("photo"),upload);
+router.get("/getallImages", getAllImages);
 
 export default router; 

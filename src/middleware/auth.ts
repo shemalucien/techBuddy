@@ -7,7 +7,7 @@ const JWT_SECRET = "amalitech";
 export const authorize = (req: Request, res: Response, next: NextFunction) => {
     let token = req.headers.authorization;
     token = token?.replace("Bearer ", "");
-    console.log(token);
+  //  console.log(token);
     if (!token) {
         return res.status(401).json({
             success: false,
@@ -16,7 +16,7 @@ export const authorize = (req: Request, res: Response, next: NextFunction) => {
     }
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        console.log(decoded);
+       // console.log(decoded);
         if (!decoded) {
             return res.status(401).json({
                 success: false,
@@ -35,7 +35,7 @@ export const authorize = (req: Request, res: Response, next: NextFunction) => {
 export const adminauthorize = (req: Request, res: Response, next: NextFunction) => {
     let token = req.headers.authorization;
     token = token?.replace("Bearer ", "");
-    console.log(token);
+    //console.log(token);
     if (!token) {
         return res.status(401).json({
             success: false,
@@ -43,7 +43,7 @@ export const adminauthorize = (req: Request, res: Response, next: NextFunction) 
         });
     }
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log(decoded);
+    //console.log(decoded);
     if (!decoded) {
         return res.status(401).json({
             success: false,

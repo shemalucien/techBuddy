@@ -5,12 +5,10 @@ export const uploadVideo = async (req: any, res: any) => {
     try {
         const videoUrl = await videoUpload(req);
         const { originalname } = req.file;
-        console.log(`Uploading ${originalname}`);
-        // save the video with original name
-        // find if the video exist already in the database  if it exists do not save it display the message that it exists
+        //console.log(`Uploading ${originalname}`);
         const video = await videoModel.findOne({ videoName: originalname });
         if (video) {
-            res.status(200).json({
+            res.status4(400).json({
                 message: "Video already exists"
             });
         }

@@ -8,7 +8,7 @@ export const upload = async (req: any, res: any) => {
     console.log(`Uploading ${originalname}`);
     const image = await imageModel.findOne({ imageName: originalname });
     if (image) {
-        res.status(200).json({
+        res.status(400).json({
             message: "Image already exists"
         });
     }
