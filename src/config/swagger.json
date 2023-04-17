@@ -1,0 +1,294 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "techBuddy APIs",
+    "description": "API Documentations using Swagger",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Shema Lucien",
+      "email": "shemalucien5@gmail.comcom",
+      "url": "shemalucien"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "name": "DEV"
+    }
+  ],
+  "paths": {
+    "/api/v1/user/signup": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Registration for Standard-user | Admin",
+        "description": "Registrations for user's either admin or standard-user",
+        "operationId": "Signup",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Resource payload",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created"
+          }
+        }
+      }
+    },
+    "/api/v1/user/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login for Standard-user | Admin",
+        "description": "Login for user's either admin or standard-user",
+        "operationId": "Login",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Resource payload",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Login successful"
+          }
+        }
+      }
+    },
+    "/api/v1/user/get-users/:id": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Fetct User profile",
+        "description": "Fetch User Profile",
+        "operationId": "Fetch User Profile",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "user id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User found"
+          }
+        }
+      }
+    },
+    "/api/v1/image/imageUpload": {
+      "post": {
+        "tags": [
+          "Images"
+        ],
+        "summary": "Upload Image",
+        "description": "Upload Image",
+        "operationId": "Upload Image",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Resource payload",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "imageName": {
+                  "type": "string"
+                },
+                "imageId": {
+                  "type": "string"
+                },
+                "imageUrl": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "imageName",
+                "imageId",
+                "imageUrl"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Image uploaded"
+          }
+        }
+      }
+    },
+    "/api/v1/image/getAllImages": {
+      "get": {
+        "tags": [
+          "Images"
+        ],
+        "summary": "Fetct All Images",
+        "description": "Fetch All Images",
+        "operationId": "Fetch All Images",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Images found"
+          }
+        }
+      }
+    },
+    "/api/v1/video/videoUpload": {
+      "post": {
+        "tags": [
+          "Videos"
+        ],
+        "summary": "Upload Video",
+        "description": "Upload Video",
+        "operationId": "Upload Video",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Resource payload",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "videoName": {
+                  "type": "string"
+                },
+                "videoId": {
+                  "type": "string"
+                },
+                "videoUrl": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "videoName",
+                "videoId",
+                "videoUrl"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Video uploaded"
+          }
+        }
+      }
+    },
+      "/api/v1/video/getAllVideos": {
+        "get": {
+          "tags": [
+            "Videos"
+          ],
+          "summary": "Fetct All Videos",
+          "description": "Fetch All Videos",
+          "operationId": "Fetch All Videos",
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Videos found"
+            }
+          }
+        }
+      }
+    }
+  }
+  
