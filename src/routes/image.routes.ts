@@ -13,7 +13,7 @@ const fileFilter = (req:any, file:any, cb:any) => {
     }
 };
 const uploads = multer({ storage, fileFilter });
-router.post("/imageUpload",  uploads.single("photo"),upload);
-router.get("/getallImages", getAllImages);
+router.post("/imageUpload",authorize,  uploads.single("photo"),upload);
+router.get("/getallImages",authorize, getAllImages);
 
 export default router; 

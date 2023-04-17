@@ -14,7 +14,7 @@ const fileFilter = (req:any, file:any, cb:any) => {
 };
 const uploads = multer({ storage, fileFilter });
 
-router.post("/videoUpload",uploads.single("video"),uploadVideo);
-router.get("/getallVideos",getAllVideos);
+router.post("/videoUpload",authorize,uploads.single("video"),uploadVideo);
+router.get("/getallVideos",authorize,getAllVideos);
 
 export default router;
