@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import  UserRoutes from './routes/user.routes';
 import ImageRoutes from './routes/image.routes';
 import VideoRoutes from './routes/video.routes';
@@ -12,6 +13,7 @@ dotenv.config();
 const PORT=process.env.PORT;
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use('/api/v1/user', UserRoutes);
 app.use('/api/v1/image', ImageRoutes);
 app.use('/api/v1/video', VideoRoutes);

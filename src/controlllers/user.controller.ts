@@ -96,6 +96,19 @@ class AuthController
       res.status(500).json({ message: 'Server error' });
     }
   }
+  // get all users
+  public async getUsers(req: Request, res: Response): Promise<void> {
+    try {
+      const users: IUser[] = await User.find();
+      res.status(200).json({
+        message: 'Users found',
+        users,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
 }
 
 export const authController = new AuthController();
