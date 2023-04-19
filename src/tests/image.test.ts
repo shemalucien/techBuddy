@@ -43,7 +43,7 @@ describe('User Signup', () => {
     it('should create a new user', (done) => {
       chai
         .request(app)
-        .post('/user/signup')
+        .post('/api/v1/user/signup')
         .send(testUser)
         .end((err, res) => {
           expect(res).to.have.status(201);
@@ -55,7 +55,7 @@ describe('User Signup', () => {
     it('should return an error if email is already in use', (done) => {
       chai
         .request(app)
-        .post('/user/signup')
+        .post('/api/v1/user/signup')
         .send(testUser)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -71,14 +71,14 @@ describe('User Login', () => {
     await mongoose.connection.dropCollection('users');
     await chai
       .request(app)
-      .post('/user/signup')
+      .post('/api/v1/user/signup')
       .send(testUser);
   });
 
   it('should return an auth token on successful login', (done) => {
     chai
       .request(app)
-      .post('/user/login')
+      .post('/api/v1/user/login')
       .send(loginCreds)
       .end((err, res) => {
         expect(res).to.have.status(200);
@@ -96,7 +96,7 @@ describe('User Login', () => {
         it('should create a new image', (done) => {
           chai
             .request(app)
-            .post('/image/imageUpload')
+            .post('/api/v1/image/imageUpload')
             .send(imageModel.create(testImage))
             .end((err, res) => {
               expect(res).to.have.status(201);
@@ -107,7 +107,7 @@ describe('User Login', () => {
         it('should return an error if image name is already in use', (done) => {
           chai
             .request(app)
-            .post('/image/imageUpload')
+            .post('/api/v1/image/imageUpload')
             .set("Authorization", `Bearer ${authToken}`)
             .send(imageModel.create(testImage))
             .end((err, res) => {
@@ -119,7 +119,7 @@ describe('User Login', () => {
         it('should return an error if the server is down', (done) => {
           chai
             .request(app)
-            .post('/image/imageUpload')
+            .post('/api/v1/image/imageUpload')
             .send(testImage)
             .end((err, res) => {
               expect(res).to.have.status(500);
@@ -135,11 +135,11 @@ describe('User Login', () => {
 
           chai
             .request(app)
-            .post('/image/imageUpload')
+            .post('/api/v1/image/imageUpload')
             .set("Authorization", `Bearer ${authToken}`)
             .send(testImage)
             .end((err, res) => {
-              chai.request(app).get('/image/getallImages').end((err, res) => {
+              chai.request(app).get('/api/v1/image/getallImages').end((err, res) => {
                 expect(res).to.have.status(200);
                 done();
               });
@@ -148,11 +148,11 @@ describe('User Login', () => {
         it('should return an error if the server is down', (done) => {
           chai
             .request(app)
-            .post('/image/imageUpload')
+            .post('/api/v1/image/imageUpload')
             .set("Authorization", `Bearer ${authToken}`)
             .send(testImage)
             .end((err, res) => {
-              chai.request(app).get('/image/getallImages').end((err, res) => {
+              chai.request(app).get('/api/v1/image/getallImages').end((err, res) => {
                 expect(res).to.have.status(500);
                 done();
               });
@@ -166,7 +166,7 @@ describe('User Login', () => {
   it(' should return an error if login credentials are invalid', (done) => {
     chai
       .request(app)
-      .post('/user/login')
+      .post('/api/v1/user/login')
       .send(invalidCreds)
       .end((err, res) => {
         expect(res).to.have.status(401);

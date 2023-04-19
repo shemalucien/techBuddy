@@ -38,7 +38,7 @@ describe('User Signup', () => {
     it('should create a new user', (done) => {
       chai
         .request(app)
-        .post('/user/signup')
+        .post('/api/v1//user/signup')
         .send(testUser)
         .end((err, res) => {
           expect(res).to.have.status(201);
@@ -50,7 +50,7 @@ describe('User Signup', () => {
     it('should return an error if email is already in use', (done) => {
       chai
         .request(app)
-        .post('/user/signup')
+        .post('/api/v1/user/signup')
         .send(testUser)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -66,14 +66,14 @@ describe('User Login', () => {
     await mongoose.connection.dropCollection('users');
     await chai
       .request(app)
-      .post('/user/signup')
+      .post('/api/v1/user/signup')
       .send(testUser);
   });
 
   it('should return an auth token on successful login', (done) => {
     chai
       .request(app)
-      .post('/user/login')
+      .post('/api/v1/user/login')
       .send(loginCreds)
       .end((err, res) => {
         expect(res).to.have.status(200);
@@ -86,7 +86,7 @@ describe('User Login', () => {
   it(' should return an error if login credentials are invalid', (done) => {
     chai
       .request(app)
-      .post('/user/login')
+      .post('/api/v1/user/login')
       .send(invalidCreds)
       .end((err, res) => {
         expect(res).to.have.status(401);
