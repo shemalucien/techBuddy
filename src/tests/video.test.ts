@@ -21,7 +21,7 @@ describe('Video', () => {
     it('should create a new video', (done) => {
       chai
         .request(app)
-        .post('/video/videoUpload')
+        .post('/api/v1/video/videoUpload')
         .send(videoModel.create(testVideo))
         .end((err, res) => {
           expect(res).to.have.status(201);
@@ -32,7 +32,7 @@ describe('Video', () => {
     it('should not create a new video', (done) => {
       chai
         .request(app)
-        .post('/video/videoUpload')
+        .post('/api/v1/video/videoUpload')
         .send(testVideo)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -42,7 +42,7 @@ describe('Video', () => {
     it('hould return an error if the server is down', (done) => {	
       chai
         .request(app)
-        .post('/video/videoUpload')
+        .post('/api/v1/video/videoUpload')
         .send(testVideo)
         .end((err, res) => {
           expect(res).to.have.status(500);
@@ -57,10 +57,10 @@ describe('GET /video', () => {
     it('should return all videos', (done) => {
       chai
       .request(app)
-      .post('/video/videoUpload')
+      .post('/api/v1/video/videoUpload')
       .send(testVideo)
       .end((err, res) => {
-          chai.request(app).get('/video/getallVideos').end((err, res) => {
+          chai.request(app).get('/api/v1/video/getallVideos').end((err, res) => {
               expect(res).to.have.status(200);
               done();
           });
@@ -69,10 +69,10 @@ describe('GET /video', () => {
     it('should return an error if the server is down', (done) => {
       chai
       .request(app)
-      .post('/video/videoUpload')
+      .post('/api/v1/video/videoUpload')
       .send(testVideo)
       .end((err, res) => {
-      chai.request(app).get('/video/getallVideos').end((err, res) => {
+      chai.request(app).get('/api/v1/video/getallVideos').end((err, res) => {
           expect(res).to.have.status(500);
           done();
       })
