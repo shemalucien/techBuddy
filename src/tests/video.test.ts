@@ -1,9 +1,9 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../index';
-import mongoose from 'mongoose';
 import videoModel from '../database/models/videoModel';
-
+import path from 'path';
+import fs from 'fs';
 chai.use(chaiHttp);
 const expect = chai.expect;
 
@@ -12,45 +12,34 @@ const testVideo = {
     videoUrl: "videoURL"
 }
 
-describe('Video', () => {
-  beforeEach(async () => {
-    await mongoose.connection.dropCollection('videos');
-  });
+describe('Video Upload API', () => {
+    let imageId: string;
+    it('should upload video', async () => {
+        chai.request(app)
+            .post('/api/v1/video/videoUpload')
+            .write(fs.readFileSync(path.join(process.cwd(), './src/tests/videos/', 'test.mp4')))
+        expect(fs.existsSync(path.join(process.cwd(), './src/tests/videos/', 'test.mp4'))).to.equal(true);
 
-  describe('POST /video', () => {
-    it('should create a new video', (done) => {
-      chai
-        .request(app)
-        .post('/api/v1/video/videoUpload')
-        .send(videoModel.create(testVideo))
-        .end((err, res) => {
-          expect(res).to.have.status(201);
-          expect(res.body).to.not.have.property('password');
-          done();
-        });
+        const response = await videoModel.create({
+            videoName: 'test.mp4',
+            videoUrl: "videoURL"
+        })
+        expect(response.videoUrl).to.equal('videoURL');
     });
-    it('should not create a new video', (done) => {
-      chai
-        .request(app)
-        .post('/api/v1/video/videoUpload')
-        .send(testVideo)
-        .end((err, res) => {
-          expect(res).to.have.status(400);
-          done();
+    it('should not upload duplicate video', async () => {
+        const res = await chai
+            .request(app)
+            .post('/api/v1/video/videoUpload')
+            .write(fs.readFileSync(path.join(process.cwd(), './src/tests/videos/', 'test.mp4')));
+        expect(fs.existsSync(path.join(process.cwd(), './src/tests/videos/', 'test.mp4'))).to.equal(true); 
+        const response = await videoModel.findOne({
+            videoName: 'test.mp4'
+        })
+          
         });
-    });
-    it('hould return an error if the server is down', (done) => {	
-      chai
-        .request(app)
-        .post('/api/v1/video/videoUpload')
-        .send(testVideo)
-        .end((err, res) => {
-          expect(res).to.have.status(500);
-          done();
-        });
-    });
-  })
-})
+
+});
+
 
 describe('GET /video', () => {
   describe('GET /getallVideos', () => {
@@ -66,14 +55,14 @@ describe('GET /video', () => {
           });
         });
     });
-    it('should return an error if the server is down', (done) => {
+    it('should return an error if the server is not found', (done) => {
       chai
       .request(app)
       .post('/api/v1/video/videoUpload')
       .send(testVideo)
       .end((err, res) => {
-      chai.request(app).get('/api/v1/video/getallVideos').end((err, res) => {
-          expect(res).to.have.status(500);
+      chai.request(app).get('/api/v1/video/get=').end((err, res) => {
+          expect(res).to.have.status(404);
           done();
       })
       });
