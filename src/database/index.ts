@@ -1,5 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 const enviroment = process.env.NODE_ENV;
 const dev_db_url = process.env.DEVELOPMENT_DB as string;
 const prod_db_url = process.env.PRODUCTION_DB as string;;
@@ -10,7 +12,8 @@ const app = express();
 app.use(express.json());
 //CONNECT TO MONGODB
   mongoose.connect(connectionUrl, {
-  }).then(() => {
+  })
+  .then(() => {
     console.log('Connected to MongoDB');
   })
   .catch((err) => {
