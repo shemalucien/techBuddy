@@ -24,7 +24,8 @@ export const upload = async (req: any, res: any) => {
     }}
     catch (err) {
         res.status(500).json({
-            message: "Server error"
+            message: "Server error",
+            error: err
         })
     }
 }
