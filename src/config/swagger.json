@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "techBuddy APIs",
-    "description": "API Documentations using Swagger",
+    "description": " This is techBuddy APIs using Swagger",
     "version": "1.0.0",
     "contact": {
       "name": "Shema Lucien",
@@ -33,14 +33,14 @@
         "tags": [
           "Authentication"
         ],
-        "summary": "Registration for Standard-user | Admin",
-        "description": "Registrations for user's either admin or standard-user",
+        "summary": "Signup for Standard-user | Admin",
+        "description": "Signup for user's either admin or standard-user",
         "operationId": "Signup",
         "parameters": [
           {
             "in": "body",
             "name": "body",
-            "description": "Resource payload",
+            "description": "User Details for Signup",
             "required": true,
             "schema": {
               "type": "object",
@@ -51,24 +51,25 @@
                 "email": {
                   "type": "string"
                 },
-                "role": {
+                "password": {
                   "type": "string"
                 },
-                "password": {
+                "role": {
                   "type": "string"
                 }
               },
               "required": [
                 "name",
                 "email",
-                "password"
+                "password",
+                "role"
               ]
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "User created"
+            "description": "User Created"
           }
         }
       }
@@ -143,6 +144,29 @@
         }
       }
     },
+    "/api/v1/user/allUsers": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Fetct All Users",
+        "description": "Fetch All Users",
+        "operationId": "Fetch All Users",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Users found"
+          }
+        }
+      }
+    },
     "/api/v1/image/imageUpload": {
       "post": {
         "tags": [
@@ -156,34 +180,19 @@
             "Bearer": []
           }
         ],
+        "consumes": [
+          "multipart/form-data"
+        ],
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "Resource payload",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "imageName": {
-                  "type": "string"
-                },
-                "imageId": {
-                  "type": "string"
-                },
-                "imageUrl": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "imageName",
-                "imageId",
-                "imageUrl"
-              ]
-            }
+            "in": "formData",
+            "name": "photo",
+            "type": "file",
+            "description": "Image Name",
+            "required": true
           }
         ],
         "responses": {
@@ -229,34 +238,19 @@
             "Bearer": []
           }
         ],
+        "consumes": [
+          "multipart/form-data"
+        ],
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "Resource payload",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "videoName": {
-                  "type": "string"
-                },
-                "videoId": {
-                  "type": "string"
-                },
-                "videoUrl": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "videoName",
-                "videoId",
-                "videoUrl"
-              ]
-            }
+            "in": "formData",
+            "name": "video",
+            "type": "file",
+            "description": "Video Name",
+            "required": true
           }
         ],
         "responses": {
@@ -266,29 +260,135 @@
         }
       }
     },
-      "/api/v1/video/getAllVideos": {
-        "get": {
-          "tags": [
-            "Videos"
-          ],
-          "summary": "Fetct All Videos",
-          "description": "Fetch All Videos",
-          "operationId": "Fetch All Videos",
-          "security": [
-            {
-              "Bearer": []
-            }
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "responses": {
-            "201": {
-              "description": "Videos found"
-            }
+    "/api/v1/video/getAllVideos": {
+      "get": {
+        "tags": [
+          "Videos"
+        ],
+        "summary": "Fetct All Videos",
+        "description": "Fetch All Videos",
+        "operationId": "Fetch All Videos",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Videos found"
+          }
+        }
+      }
+    }
+  },
+    "definitions": {
+      "responses": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Image": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageName": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Video": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "videoName": {
+            "type": "string"
+          },
+          "videoId": {
+            "type": "string"
+          },
+          "videoUrl": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       }
     }
   }
-  
